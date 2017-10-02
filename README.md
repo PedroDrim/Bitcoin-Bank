@@ -1,2 +1,8 @@
-# Bitcoin-Bank
-Um protótipo de banco virtual para mineração de bitcoins, utilizando typescript e programação reativa
+# Quick List
+Uma lista simples e fechada, utilizando:
+* Expressjs
+* Node
+* testes de unidade
+* typescript
+* programação reativa
+* React como engine front-end.
