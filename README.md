@@ -6,3 +6,4 @@ Uma lista simples e fechada, utilizando:
 * typescript
 * programação reativa
 * React como engine front-end.
+* gulp como automatizador de tarefas
