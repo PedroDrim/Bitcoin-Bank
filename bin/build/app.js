@@ -14,9 +14,10 @@ var Server = (function () {
         this.app = express();
         this.config();
         this.routes();
+        this.api();
     }
-    Server.bootstrap = function () {
-        return new Server();
+    Server.getApplication = function () {
+        return new Server().app;
     };
     Server.prototype.config = function () {
         this.app.use(express.static(path.join(__dirname, "public")));
@@ -41,6 +42,9 @@ var Server = (function () {
         router = express.Router();
         index_1.IndexRoute.create(router);
         this.app.use(router);
+    };
+    Server.prototype.api = function () {
+        console.log("API's externas iniciadas");
     };
     return Server;
 }());

@@ -1,3 +1,5 @@
+//==============================================
+// Iniciando imports para o typescript
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
@@ -7,78 +9,92 @@ import * as methodOverride from "method-override";
 import * as favicon from "serve-favicon";
 import * as errorHandler from "errorhandler";
 import { IndexRoute } from "./routes/index";
+// Import de Bibliotecas em javascript
 var reactView = require("express-react-views");
+//==============================================
 
+/**
+ * Classe responsável por representar o Servidor.
+ */
 export class Server {
 
-  public app: express.Application;
+  /**
+   * Cria uma instância de aplicação do Express.
+   */
+  private app: express.Application;
 
   /**
-   * Bootstrap the application.
+   * Retorna uma instância do Servidor.
    *
    * @class Server
-   * @method bootstrap
+   * @method getServer
    * @static
-   * @return {ng.auto.IInjectorService} Returns the newly created injector for this app.
+   * @return Retorna uma nova instância do Servidor.
    */
-  public static bootstrap(): Server {
-    return new Server();
+  public static getApplication(): express.Application {
+    return new Server().app;
   }
 
+  /**
+   * Construtor da classe
+   */
   constructor() {
-    //create expressjs application
+    //Inicia a aplicação do Express.
     this.app = express();
 
-    //configure application
+    //Configura a aplicação.
     this.config();
 
-    //add routes
+    //Gerencia as rotas da aplicação.
     this.routes();
 
-    //add api
-    //this.api();
+    //Gerencia quaisquer serviços externos utilizados.
+    this.api();
   }
 
+  /**
+   * Inicia as configurações essenciais para o funcionamento do servidor.
+   */
   public config() {
 
     //this.app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
     this.app.use(express.static(path.join(__dirname, "public")));
 
-    //configure ejs
+    //Configura o React
     this.app.set("views", path.join(__dirname, "views"));
     this.app.set("view engine", "jsx");
     this.app.engine('jsx', reactView.createEngine());
 
-    //use logger middlware
+    //Utiliza logger middlware
     this.app.use(logger("dev"));
 
-    //use json form parser middlware
+    //Utiliza o parser Json
     this.app.use(bodyParser.json());
 
-    //use query string parser middlware
+    //Utiliza o query string parser middlware
     this.app.use(bodyParser.urlencoded({
       extended: true
     }));
 
-    //use cookie parser middleware
+    //Utiliza cookie parser middleware
     this.app.use(cookieParser());
 
-    //use override middlware
+    //Utiliza override middlware
     this.app.use(methodOverride());
 
-    //catch 404 and forward to error handler
+    //Captura de erros 404
     this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
       err.status = 404;
       next(err);
     });
 
-    //error handling
+    //Captura de erros padrões
     this.app.use(errorHandler());
 
   }
 
   /**
-  * Create router.
+  * Cria e gerencia as rotas.
   *
   * @class Server
   * @method config
@@ -88,10 +104,17 @@ export class Server {
     let router: express.Router;
     router = express.Router();
 
-    //IndexRoute
+    //Inicia as rotas definidas em IndexRoute
     IndexRoute.create(router);
 
-    //use router middleware
+    //Utiliza router middleware
     this.app.use(router);
+  }
+
+  /**
+   * Gerencia API's externas como banco de dados, por exemplo.
+   */
+  private api() {
+    console.log("API's externas iniciadas");
   }
 }

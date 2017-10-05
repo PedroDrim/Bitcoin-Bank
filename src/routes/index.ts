@@ -1,24 +1,27 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { BaseRoute } from "./route";
+import { BaseRoute } from "./route_Interface";
 
 /**
- * / route
- *
- * @class User
+ * Classe responsável por gerenciar as rotas de Index.
  */
 export class IndexRoute extends BaseRoute {
 
   /**
-   * Create the routes.
+   * Criar as rotas.
    *
    * @class IndexRoute
    * @method create
    * @static
    */
   public static create(router: Router) {
-    
-    //add home page route
+
+    //Adicionar home page route
     router.get("/", (req: Request, res: Response, next: NextFunction) => {
+      new IndexRoute().index(req, res, next);
+    });
+
+    //test
+    router.post("/test/:id", (req: Request, res: Response, next: NextFunction) => {
       new IndexRoute().index(req, res, next);
     });
   }
@@ -47,10 +50,10 @@ export class IndexRoute extends BaseRoute {
     //set options
     let options: Object = {
       "title": "Express",
-      "name": "Frase de Teste"
+      "name": "Contato, 3,2,1... foi"
     };
 
     //render template
-    this.render(req, res, "index", options);
+    this.render("index", req, res, options);
   }
 }

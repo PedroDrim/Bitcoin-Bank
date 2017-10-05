@@ -10,25 +10,27 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var route_1 = require("./route");
+var route_Interface_1 = require("./route_Interface");
 var IndexRoute = (function (_super) {
     __extends(IndexRoute, _super);
     function IndexRoute() {
         return _super.call(this) || this;
     }
     IndexRoute.create = function (router) {
-        console.log("[IndexRoute::create] Creating index route.");
         router.get("/", function (req, res, next) {
+            new IndexRoute().index(req, res, next);
+        });
+        router.post("/test/:id", function (req, res, next) {
             new IndexRoute().index(req, res, next);
         });
     };
     IndexRoute.prototype.index = function (req, res, next) {
         var options = {
             "title": "Express",
-            "name": "Frase de Teste"
+            "name": "Contato, 3,2,1... foi"
         };
-        this.render(req, res, "index", options);
+        this.render("index", req, res, options);
     };
     return IndexRoute;
-}(route_1.BaseRoute));
+}(route_Interface_1.BaseRoute));
 exports.IndexRoute = IndexRoute;

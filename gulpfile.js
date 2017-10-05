@@ -1,7 +1,7 @@
 var gulp = require("gulp");
 var del = require("del");
-var sourcemaps = require("gulp-sourcemaps")
-var uglify = require('gulp-uglify');
+var sourcemaps = require("gulp-sourcemaps");
+var uglify = require("gulp-uglify");
 var babel = require("gulp-babel");
 var tslint = require("gulp-tslint");
 var ts = require("gulp-typescript");
@@ -20,17 +20,17 @@ gulp.task("compile", function () {
 });
 
 gulp.task("copy_view", function () {
-    var folder = ["dev/views/**", "dev/public/**"];
-    return gulp.src(folder, { base: "dev" })
+    var folder = ["src/views/**", "src/public/**"];
+    return gulp.src(folder, { base: "src" })
         .pipe(gulp.dest(build_dir));
 });
 
 gulp.task("compress"), function () {
-    return gulp.src(build_dir + "/**/*.js")
+    return gulp.src(build_dir + "/**/*.{js,jsx}")
         .pipe(sourcemaps.init())
         .pipe(uglify())
         .pipe(babel({
-            presets: ['es2015']
+            presets: ['es2015', 'react']
         }))
         .pipe(sourcemaps.write("."));
 }

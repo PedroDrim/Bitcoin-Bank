@@ -9,7 +9,7 @@ var BaseRoute = (function () {
         this.scripts.push(src);
         return this;
     };
-    BaseRoute.prototype.render = function (req, res, view, options) {
+    BaseRoute.prototype.render = function (view, req, res, options) {
         res.locals.BASE_URL = "/";
         res.locals.scripts = this.scripts;
         res.locals.title = this.title;

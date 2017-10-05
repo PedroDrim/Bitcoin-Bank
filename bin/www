@@ -8,7 +8,7 @@ var buildapp = require('./build/app');
 var debug = require('debug')('myapp:server');
 var http = require('http');
 
-var app = buildapp.Server.bootstrap().app;
+var app = buildapp.Server.getApplication();
 
 /**
  * Get port from environment and store in Express.
