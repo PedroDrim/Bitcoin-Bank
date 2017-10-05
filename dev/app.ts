@@ -7,6 +7,7 @@ import * as methodOverride from "method-override";
 import * as favicon from "serve-favicon";
 import * as errorHandler from "errorhandler";
 import { IndexRoute } from "./routes/index";
+var reactView = require("express-react-views");
 
 export class Server {
 
@@ -45,7 +46,8 @@ export class Server {
 
     //configure ejs
     this.app.set("views", path.join(__dirname, "views"));
-    this.app.set("view engine", "ejs");
+    this.app.set("view engine", "jsx");
+    this.app.engine('jsx', reactView.createEngine());
 
     //use logger middlware
     this.app.use(logger("dev"));

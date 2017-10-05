@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { BaseRoute } from "./route";
 
-
 /**
  * / route
  *
@@ -17,9 +16,7 @@ export class IndexRoute extends BaseRoute {
    * @static
    */
   public static create(router: Router) {
-    //log
-    console.log("[IndexRoute::create] Creating index route.");
-
+    
     //add home page route
     router.get("/", (req: Request, res: Response, next: NextFunction) => {
       new IndexRoute().index(req, res, next);
@@ -49,7 +46,8 @@ export class IndexRoute extends BaseRoute {
 
     //set options
     let options: Object = {
-      "title": "Express"
+      "title": "Express",
+      "name": "Frase de Teste"
     };
 
     //render template

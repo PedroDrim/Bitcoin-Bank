@@ -1,19 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class BaseRoute {
-    constructor() {
+var BaseRoute = (function () {
+    function BaseRoute() {
         this.title = "Tour of Heros";
         this.scripts = [];
     }
-    addScript(src) {
+    BaseRoute.prototype.addScript = function (src) {
         this.scripts.push(src);
         return this;
-    }
-    render(req, res, view, options) {
+    };
+    BaseRoute.prototype.render = function (req, res, view, options) {
         res.locals.BASE_URL = "/";
         res.locals.scripts = this.scripts;
         res.locals.title = this.title;
         res.render(view, options);
-    }
-}
+    };
+    return BaseRoute;
+}());
 exports.BaseRoute = BaseRoute;
