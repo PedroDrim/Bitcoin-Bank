@@ -5,7 +5,8 @@ import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import * as logger from "morgan";
 import * as path from "path";
-import * as methodOverride from "method-override";
+import * as helmet from "helmet";
+import * as compression from "compression";
 import * as favicon from "serve-favicon";
 import * as errorHandler from "errorhandler";
 import { IndexRoute } from "./routes/index";
@@ -55,18 +56,7 @@ export class Server {
   /**
    * Inicia as configurações essenciais para o funcionamento do servidor.
    */
-  public config() {
-
-    //this.app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-    this.app.use(express.static(path.join(__dirname, "public")));
-
-    //Configura o React
-    this.app.set("views", path.join(__dirname, "views"));
-    this.app.set("view engine", "jsx");
-    this.app.engine('jsx', reactView.createEngine());
-
-    //Utiliza logger middlware
-    this.app.use(logger("dev"));
+  private config() {
 
     //Utiliza o parser Json
     this.app.use(bodyParser.json());
@@ -79,8 +69,22 @@ export class Server {
     //Utiliza cookie parser middleware
     this.app.use(cookieParser());
 
-    //Utiliza override middlware
-    this.app.use(methodOverride());
+    //Utiliza helmet middlware
+    this.app.use(helmet());
+
+    //Utiliza compression middlware
+    this.app.use(compression());
+
+    //Utiliza logger middlware
+    this.app.use(logger("dev"));
+
+    this.app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+    this.app.use(express.static(path.join(__dirname, "public")));
+
+    //Configura o React
+    this.app.set("views", path.join(__dirname, "views"));
+    this.app.set("view engine", "jsx");
+    this.app.engine('jsx', reactView.createEngine());
 
     //Captura de erros 404
     this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -91,6 +95,9 @@ export class Server {
     //Captura de erros padrões
     this.app.use(errorHandler());
 
+    // Definindo porta
+    var port = this.normalizePort(process.env.PORT || '3001');
+    this.app.set('port', port);
   }
 
   /**
@@ -105,7 +112,7 @@ export class Server {
     router = express.Router();
 
     //Inicia as rotas definidas em IndexRoute
-    IndexRoute.create(router);
+    new IndexRoute(router);
 
     //Utiliza router middleware
     this.app.use(router);
@@ -117,4 +124,20 @@ export class Server {
   private api() {
     console.log("API's externas iniciadas");
   }
+
+  private normalizePort(value: string | number): number {
+
+    var port: number = parseInt((value as string), 10);
+
+    if (isNaN(port)) {
+      // named pipe
+      return (value as number);
+    }
+
+    if (port >= 0) {
+      // port number
+      return port;
+    }
+  }
+
 }

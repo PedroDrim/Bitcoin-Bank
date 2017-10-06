@@ -35,8 +35,12 @@ gulp.task("compress"), function () {
         .pipe(sourcemaps.write("."));
 }
 
-gulp.task("clean", function () {
+gulp.task("clean_build", function () {
     return del(build_dir);
+});
+
+gulp.task("clean_modules", function () {
+    return del("node_modules");
 });
 
 gulp.task("default", ["compile", "copy_view", "compress"]);
