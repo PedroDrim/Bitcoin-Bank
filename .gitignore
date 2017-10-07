@@ -1,2 +1,6 @@
 node_modules/
 .vscode/
+.npm
+bin/build
+*.log
+npm-debug.log*

@@ -24,9 +24,7 @@ var Server = (function () {
         return new Server().app;
     };
     Server.prototype.config = function () {
-        this.app.use(bodyParser.urlencoded({
-            extended: true
-        }));
+        this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(bodyParser.json());
         this.app.use(logger("dev"));
         this.app.use(cookieParser());
@@ -44,7 +42,7 @@ var Server = (function () {
             next(err);
         });
         this.app.use(errorHandler());
-        var port = this.normalizePort(process.env.PORT || '3001');
+        var port = this.normalizePort(process.env.PORT || '3000');
         this.app.set('port', port);
     };
     Server.prototype.routes = function () {

@@ -61,9 +61,7 @@ export class Server {
   private config() {
 
     //Utiliza o query string parser middlware
-    this.app.use(bodyParser.urlencoded({
-      extended: true
-    }));
+    this.app.use(bodyParser.urlencoded({ extended: true }));
 
     //Utiliza o parser Json
     this.app.use(bodyParser.json());
@@ -104,7 +102,7 @@ export class Server {
     this.app.use(errorHandler());
 
     // Definindo porta
-    var port = this.normalizePort(process.env.PORT || '3001');
+    var port = this.normalizePort(process.env.PORT || '3000');
     this.app.set('port', port);
   }
 

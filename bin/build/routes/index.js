@@ -20,11 +20,11 @@ var IndexRoute = (function () {
     };
     IndexRoute.prototype.routesForGET = function () {
         var _this = this;
-        this.router.get("/", function (req, res, next) {
+        this.router.get("/", function (req, res) {
             var person = _this.list.getPersonByCPF("111");
             var options = {
                 "title": "Express",
-                "name": person.getName()
+                "name": JSON.stringify(_this.list.getList())
             };
             var view = "index";
             res.render(view, options);
@@ -32,7 +32,7 @@ var IndexRoute = (function () {
     };
     IndexRoute.prototype.routesForPOST = function () {
         var _this = this;
-        this.router.post("/", function (req, res, next) {
+        this.router.post("/", function (req, res) {
             if (_.isEmpty(req.body)) {
                 res.status(400).send("Não foi possivel adicionar o elemento, verifique os parametros.");
             }
@@ -43,7 +43,7 @@ var IndexRoute = (function () {
                 res.send("Elemento adicionado com sucesso.");
             }
         });
-        this.router.post("/:cpf", function (req, res, next) {
+        this.router.post("/:cpf", function (req, res) {
             var cpf = req.params.cpf;
             var person = _this.list.getPersonByCPF(cpf);
             if (_.isEmpty(person)) {
@@ -53,13 +53,22 @@ var IndexRoute = (function () {
                 res.json(person);
             }
         });
-        this.router.post("/body", function (req, res, next) {
+        this.router.post("/get/list", function (req, res) {
+            var l = _this.list.getList();
+            if (_.isEmpty(l)) {
+                res.status(400).send("Lista vazia.");
+            }
+            else {
+                res.json(l);
+            }
+        });
+        this.router.post("/get/body", function (req, res) {
             res.send(JSON.stringify(req.body));
         });
     };
     IndexRoute.prototype.routesForPUT = function () {
         var _this = this;
-        this.router.put("/:cpf", function (req, res, next) {
+        this.router.put("/:cpf", function (req, res) {
             if (_.isEmpty(req.body)) {
                 res.status(400).send("Não foi possivel adicionar o elemento, verifique os parametros.");
             }
@@ -77,7 +86,7 @@ var IndexRoute = (function () {
     };
     IndexRoute.prototype.routesForDELETE = function () {
         var _this = this;
-        this.router.delete("/:cpf", function (req, res, next) {
+        this.router.delete("/:cpf", function (req, res) {
             var cpf = req.params.cpf;
             if (_this.list.removePersonByCPF(cpf)) {
                 res.send("Elemento removido com sucesso.");
