@@ -9,9 +9,11 @@ import * as helmet from "helmet";
 import * as compression from "compression";
 import * as favicon from "serve-favicon";
 import * as errorHandler from "errorhandler";
+import * as cors from "cors";
 import { IndexRoute } from "./routes/index";
 // Import de Bibliotecas em javascript
 var reactView = require("express-react-views");
+var busboy = require("connect-busboy");
 //==============================================
 
 /**
@@ -58,25 +60,31 @@ export class Server {
    */
   private config() {
 
-    //Utiliza o parser Json
-    this.app.use(bodyParser.json());
-
     //Utiliza o query string parser middlware
     this.app.use(bodyParser.urlencoded({
       extended: true
     }));
 
+    //Utiliza o parser Json
+    this.app.use(bodyParser.json());
+
+    //Utiliza logger middlware
+    this.app.use(logger("dev"));
+
     //Utiliza cookie parser middleware
     this.app.use(cookieParser());
 
-    //Utiliza helmet middlware
-    this.app.use(helmet());
+    //Utiliza busboy middleware
+    this.app.use(busboy());
 
     //Utiliza compression middlware
     this.app.use(compression());
 
-    //Utiliza logger middlware
-    this.app.use(logger("dev"));
+    //Utiliza helmet middlware
+    this.app.use(helmet());
+
+    //Utiliza cors middlware
+    this.app.use(cors());
 
     this.app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
     this.app.use(express.static(path.join(__dirname, "public")));

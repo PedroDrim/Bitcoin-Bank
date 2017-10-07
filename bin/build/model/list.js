@@ -14,8 +14,10 @@ var List = (function () {
             var cpf_person = person.getCpf();
             if (cpf_person == cpf) {
                 this.people.splice(index, 1);
+                return (true);
             }
         }
+        return (false);
     };
     List.prototype.getPersonByCPF = function (cpf) {
         var index;
@@ -34,8 +36,10 @@ var List = (function () {
             var cpf_person = person.getCpf();
             if (cpf_person == cpf) {
                 this.people[index] = newPerson;
+                return (true);
             }
         }
+        return (false);
     };
     List.prototype.getList = function () {
         return (this.people);

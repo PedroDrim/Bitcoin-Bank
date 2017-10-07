@@ -9,8 +9,10 @@ var helmet = require("helmet");
 var compression = require("compression");
 var favicon = require("serve-favicon");
 var errorHandler = require("errorhandler");
+var cors = require("cors");
 var index_1 = require("./routes/index");
 var reactView = require("express-react-views");
+var busboy = require("connect-busboy");
 var Server = (function () {
     function Server() {
         this.app = express();
@@ -22,14 +24,16 @@ var Server = (function () {
         return new Server().app;
     };
     Server.prototype.config = function () {
-        this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({
             extended: true
         }));
-        this.app.use(cookieParser());
-        this.app.use(helmet());
-        this.app.use(compression());
+        this.app.use(bodyParser.json());
         this.app.use(logger("dev"));
+        this.app.use(cookieParser());
+        this.app.use(busboy());
+        this.app.use(compression());
+        this.app.use(helmet());
+        this.app.use(cors());
         this.app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
         this.app.use(express.static(path.join(__dirname, "public")));
         this.app.set("views", path.join(__dirname, "views"));

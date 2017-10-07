@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "start": "gulp clean_build && gulp && nodejs ./bin/www",
-    "restore": "gulp clean_build && gulp clean_modules && npm install",
+    "reinstall": "npm cache clean && gulp clean_modules && npm install",
     "test": "mocha"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
     "compression": "^1.7.1",
+    "connect-busboy": "0.0.2",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "debug": "^2.6.3",
     "ejs": "^2.5.6",
     "errorhandler": "^1.5.0",
@@ -28,6 +30,7 @@
     "@types/chai": "^4.0.4",
     "@types/compression": "0.0.34",
     "@types/cookie-parser": "^1.4.1",
+    "@types/cors": "^2.8.1",
     "@types/errorhandler": "^0.0.31",
     "@types/express": "^4.0.37",
     "@types/helmet": "0.0.36",

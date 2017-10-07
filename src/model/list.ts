@@ -12,11 +12,10 @@ export class List {
     }
 
     public addPerson(person: Person) {
-
         this.people.push(person);
     }
 
-    public removePersonByCPF(cpf: string) {
+    public removePersonByCPF(cpf: string): boolean {
 
         var index: number;
         for (index = 0; index < this.people.length; index++) {
@@ -25,8 +24,11 @@ export class List {
             var cpf_person: string = person.getCpf();
             if (cpf_person == cpf) {
                 this.people.splice(index, 1);
+                return (true);
             }
         }
+
+        return (false);
     }
 
     public getPersonByCPF(cpf: string): Person {
@@ -42,7 +44,7 @@ export class List {
         }
     }
 
-    public updatePersonByCPF(cpf: string, newPerson: Person) {
+    public updatePersonByCPF(cpf: string, newPerson: Person): boolean {
 
         var index: number;
         for (index = 0; index < this.people.length; index++) {
@@ -51,8 +53,10 @@ export class List {
             var cpf_person: string = person.getCpf();
             if (cpf_person == cpf) {
                 this.people[index] = newPerson;
+                return (true);
             }
         }
+        return (false);
     }
 
     public getList(): Person[] {

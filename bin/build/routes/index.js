@@ -46,7 +46,15 @@ var IndexRoute = (function () {
         this.router.post("/:cpf", function (req, res, next) {
             var cpf = req.params.cpf;
             var person = _this.list.getPersonByCPF(cpf);
-            res.json(person);
+            if (_.isEmpty(person)) {
+                res.status(400).send("Não foi possivel encontrar o elemento.");
+            }
+            else {
+                res.json(person);
+            }
+        });
+        this.router.post("/body", function (req, res, next) {
+            res.send(JSON.stringify(req.body));
         });
     };
     IndexRoute.prototype.routesForPUT = function () {
@@ -58,8 +66,12 @@ var IndexRoute = (function () {
             else {
                 var cpf = req.params.cpf;
                 var person = new person_1.Person(req.body.cpf, req.body.name, req.body.age);
-                _this.list.updatePersonByCPF(cpf, person);
-                res.send("Elemento atualizado com sucesso.");
+                if (_this.list.updatePersonByCPF(cpf, person)) {
+                    res.send("Elemento atualizado com sucesso.");
+                }
+                else {
+                    res.status(400).send("Não foi possivel atualizar o elemento, verifique os parametros.");
+                }
             }
         });
     };
@@ -67,8 +79,12 @@ var IndexRoute = (function () {
         var _this = this;
         this.router.delete("/:cpf", function (req, res, next) {
             var cpf = req.params.cpf;
-            _this.list.removePersonByCPF(cpf);
-            res.send("Elemento removido com sucesso.");
+            if (_this.list.removePersonByCPF(cpf)) {
+                res.send("Elemento removido com sucesso.");
+            }
+            else {
+                res.status(400).send("Não foi possivel remover o elemento, verifique os parametros.");
+            }
         });
     };
     return IndexRoute;

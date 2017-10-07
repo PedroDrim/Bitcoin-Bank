@@ -36,7 +36,7 @@ export class IndexRoute {
 
   private routesForGET() {
 
-    //Adicionar home page route
+    //Get Rota padrão (index)
     this.router.get("/", (req: Request, res: Response, next: NextFunction) => {
 
       var person: Person = this.list.getPersonByCPF("111");
@@ -54,7 +54,7 @@ export class IndexRoute {
 
   private routesForPOST() {
 
-    //Adicionar home page route
+    //Adicionar uma nova person via REST
     this.router.post("/", (req: Request, res: Response, next: NextFunction) => {
 
       if (_.isEmpty(req.body)) {
@@ -72,21 +72,31 @@ export class IndexRoute {
         this.list.addPerson(person);
         res.send("Elemento adicionado com sucesso.");
       }
-
     });
 
-    //Adicionar home page route
+    //Visualizar uma person com base no cpf
     this.router.post("/:cpf", (req: Request, res: Response, next: NextFunction) => {
 
       var cpf: string = req.params.cpf;
       var person: Person = this.list.getPersonByCPF(cpf);
-      res.json(person);
+
+      if (_.isEmpty(person)) {
+        res.status(400).send("Não foi possivel encontrar o elemento.");
+      } else {
+        res.json(person);
+      }
+
+    });
+
+    //Exibir body
+    this.router.post("/body", (req: Request, res: Response, next: NextFunction) => {
+      res.send(JSON.stringify(req.body));
     });
   }
 
   private routesForPUT() {
 
-    //Adicionar home page route
+    //Atualizar uma person com base no cpf
     this.router.put("/:cpf", (req: Request, res: Response, next: NextFunction) => {
 
       if (_.isEmpty(req.body)) {
@@ -101,8 +111,12 @@ export class IndexRoute {
           req.body.age
         );
 
-        this.list.updatePersonByCPF(cpf, person);
-        res.send("Elemento atualizado com sucesso.");
+        if (this.list.updatePersonByCPF(cpf, person)) {
+          res.send("Elemento atualizado com sucesso.");
+        } else {
+          res.status(400).send("Não foi possivel atualizar o elemento, verifique os parametros.");
+        }
+
       }
 
     });
@@ -110,13 +124,17 @@ export class IndexRoute {
 
   private routesForDELETE() {
 
-    //Adicionar home page route
+    //Remover uma person com base no cpf
     this.router.delete("/:cpf", (req: Request, res: Response, next: NextFunction) => {
 
       var cpf: string = req.params.cpf;
 
-      this.list.removePersonByCPF(cpf);
-      res.send("Elemento removido com sucesso.");
+      if (this.list.removePersonByCPF(cpf)) {
+        res.send("Elemento removido com sucesso.");
+      } else {
+        res.status(400).send("Não foi possivel remover o elemento, verifique os parametros.");
+      }
+
     });
   }
 }
