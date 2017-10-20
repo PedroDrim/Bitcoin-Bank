@@ -21,13 +21,13 @@ var IndexRoute = (function () {
     IndexRoute.prototype.routesForGET = function () {
         var _this = this;
         this.router.get("/", function (req, res) {
-            var person = _this.list.getPersonByCPF("111");
             var options = {
                 "title": "Express",
-                "name": JSON.stringify(_this.list.getList())
+                "list": _this.list.getList(),
+                "name": "test"
             };
             var view = "index";
-            res.render(view, options);
+            res.render(view, { prop: options });
         });
     };
     IndexRoute.prototype.routesForPOST = function () {

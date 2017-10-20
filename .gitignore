@@ -1,6 +1,19 @@
+# Arquivos de configuração
 node_modules/
 .vscode/
-.npm
-bin/build
+
+# Diretório de build
+bin/build*
+
+# Log's
 *.log
 npm-debug.log*
+
+# Dados de sistema
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Diretório cache do node
+.npm

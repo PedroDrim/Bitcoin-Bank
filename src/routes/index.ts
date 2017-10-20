@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { List } from "../model/list";
 import { Person } from "../model/person";
+//import { Observable } from "rxjs";
 import * as _ from "lodash";
 
 /**
@@ -29,6 +30,7 @@ export class IndexRoute {
 
   private createList() {
     this.list = new List();
+
     this.list.addPerson(new Person("111", "Joao", 1));
     this.list.addPerson(new Person("1325", "Maria", 10));
     this.list.addPerson(new Person("1564", "José", 25));
@@ -39,16 +41,15 @@ export class IndexRoute {
     //Get Rota padrão (index)
     this.router.get("/", (req: Request, res: Response) => {
 
-      var person: Person = this.list.getPersonByCPF("111");
-
       //set options
       let options: Object = {
         "title": "Express",
-        "name": JSON.stringify(this.list.getList())
+        "list": this.list.getList(),
+        "name": "test"
       };
 
       var view: string = "index";
-      res.render(view, options);
+      res.render(view, {prop: options});
     });
   }
 

@@ -1,12 +1,12 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
+        "moduleResolution": "node",
         "module": "commonjs",
         "target": "es5",
         "jsx": "react",
         "noImplicitAny": true,
         "removeComments": true,
-        "moduleResolution": "node",
         "sourceMap": true,
         "outDir": "build",
         "baseUrl": "."

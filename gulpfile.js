@@ -1,15 +1,15 @@
 var gulp = require("gulp");
 var del = require("del");
-var sourcemaps = require("gulp-sourcemaps");
-var uglify = require("gulp-uglify");
-var babel = require("gulp-babel");
+var browserify = require('browserify');
+var babelify = require('babelify');
+var source = require('vinyl-source-stream');
 var tslint = require("gulp-tslint");
 var ts = require("gulp-typescript");
 var tsProject = ts.createProject("tsconfig.json");
 
 var build_dir = "bin/build";
 
-gulp.task("compile", function () {
+gulp.task("compile-ts", function () {
     return tsProject.src()
         .pipe(tslint({
             formatter: "msbuild"
@@ -19,28 +19,26 @@ gulp.task("compile", function () {
         .js.pipe(gulp.dest(build_dir));
 });
 
-gulp.task("copy_view", function () {
-    var folder = ["src/views/**", "src/public/**"];
+gulp.task("compile-jsx", function () {
+    return browserify({ entries: 'src/views/app.jsx', extensions: ['.jsx'], debug: true })
+        .transform("babelify",{presets: ['es2015', 'react']})
+        .bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest(build_dir + "/public/scripts"));
+});
+
+gulp.task("copy-view", function () {
+    var folder = ["src/views/*.ejs", "src/public/**"];
     return gulp.src(folder, { base: "src" })
         .pipe(gulp.dest(build_dir));
 });
 
-gulp.task("compress"), function () {
-    return gulp.src(build_dir + "/**/*.{js,jsx}")
-        .pipe(sourcemaps.init())
-        .pipe(uglify())
-        .pipe(babel({
-            presets: ['es2015', 'react']
-        }))
-        .pipe(sourcemaps.write("."));
-}
-
-gulp.task("clean_build", function () {
+gulp.task("clean-build", function () {
     return del(build_dir);
 });
 
-gulp.task("clean_modules", function () {
+gulp.task("clean-modules", function () {
     return del("node_modules");
 });
 
-gulp.task("default", ["compile", "copy_view", "compress"]);
+gulp.task("default", ["compile-ts", "copy-view", "compile-jsx"]);

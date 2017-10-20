@@ -12,7 +12,6 @@ import * as errorHandler from "errorhandler";
 import * as cors from "cors";
 import { IndexRoute } from "./routes/index";
 // Import de Bibliotecas em javascript
-var reactView = require("express-react-views");
 var busboy = require("connect-busboy");
 //==============================================
 
@@ -87,10 +86,9 @@ export class Server {
     this.app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
     this.app.use(express.static(path.join(__dirname, "public")));
 
-    //Configura o React
+    //Configura o EJS
     this.app.set("views", path.join(__dirname, "views"));
-    this.app.set("view engine", "jsx");
-    this.app.engine('jsx', reactView.createEngine());
+    this.app.set("view engine", "ejs");
 
     //Captura de erros 404
     this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -102,7 +100,7 @@ export class Server {
     this.app.use(errorHandler());
 
     // Definindo porta
-    var port = this.normalizePort(process.env.PORT || '3000');
+    var port = this.normalizePort(process.env.PORT || '3001');
     this.app.set('port', port);
   }
 
