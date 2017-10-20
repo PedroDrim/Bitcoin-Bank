@@ -17,8 +17,10 @@ gulp.task("compile-ts", function () {
             formatter: "msbuild"
         }))
         .pipe(tslint.report())
-        .pipe(tsProject())
-        .js.pipe(gulp.dest(build_dir));
+        .pipe(tsProject()).js
+        .pipe(buffer())
+        .pipe(uglify())
+        .pipe(gulp.dest(build_dir));
 });
 
 gulp.task("compile-jsx", function () {

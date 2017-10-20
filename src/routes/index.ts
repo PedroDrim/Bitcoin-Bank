@@ -31,9 +31,9 @@ export class IndexRoute {
   private createList() {
     this.list = new List();
 
-    this.list.addPerson(new Person("111", "Joao", 1));
-    this.list.addPerson(new Person("1325", "Maria", 10));
-    this.list.addPerson(new Person("1564", "José", 25));
+    this.list.addPerson(new Person("000-000-000-01", "Joao", 12));
+    this.list.addPerson(new Person("000-000-000-02", "Maria", 10));
+    this.list.addPerson(new Person("000-000-000-03", "José", 25));
   }
 
   private routesForGET() {
@@ -44,7 +44,6 @@ export class IndexRoute {
       //set options
       let options: Object = {
         "title": "Express",
-        "list": this.list.getList(),
         "name": "test"
       };
 
