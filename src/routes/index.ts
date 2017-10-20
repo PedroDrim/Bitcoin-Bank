@@ -100,11 +100,7 @@ export class IndexRoute {
       }
       
     });
-
-    //Exibir body
-    this.router.post("/get/body", (req: Request, res: Response) => {
-      res.send(JSON.stringify(req.body));
-    });
+    
   }
 
   private routesForPUT() {

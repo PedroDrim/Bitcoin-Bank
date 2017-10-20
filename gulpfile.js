@@ -2,8 +2,10 @@ var gulp = require("gulp");
 var del = require("del");
 var browserify = require('browserify');
 var babelify = require('babelify');
+var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 var tslint = require("gulp-tslint");
+var uglify = require("gulp-uglify");
 var ts = require("gulp-typescript");
 var tsProject = ts.createProject("tsconfig.json");
 
@@ -24,6 +26,8 @@ gulp.task("compile-jsx", function () {
         .transform("babelify",{presets: ['es2015', 'react']})
         .bundle()
         .pipe(source('bundle.js'))
+        .pipe(buffer())
+        .pipe(uglify())
         .pipe(gulp.dest(build_dir + "/public/scripts"));
 });
 

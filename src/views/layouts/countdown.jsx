@@ -6,21 +6,39 @@ export default class CountDown extends React.Component {
     super();
 
     this.state = {
-      time: 1
+      list: {}
     };
 
     setInterval(() => {
-      this.setState({
-        time: this.state.time + 1
-      });
+      this.updateList();
     }, 1000);
+  }
+
+  updateList() {
+
+    var data = JSON.stringify({});
+
+    fetch("/get/list", {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: data
+    })
+      .catch((err) => { throw new Error("Erro ao buscar lista atualizada: " + err.status); })
+      .then((res) => res.json())
+      .then((res) => {
+        this.setState({
+          list: res
+        })
+      })
+
   }
 
   render() {
     return (
-      <p>Time: {this.state.time}</p>
+      <p>Time: {JSON.stringify(this.state.list)}</p>
     );
   }
 }
-
-// https://medium.com/@bryantheastronaut/react-getting-started-the-mern-stack-tutorial-feat-es6-de1a2886be50

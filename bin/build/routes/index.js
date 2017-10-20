@@ -62,9 +62,6 @@ var IndexRoute = (function () {
                 res.json(l);
             }
         });
-        this.router.post("/get/body", function (req, res) {
-            res.send(JSON.stringify(req.body));
-        });
     };
     IndexRoute.prototype.routesForPUT = function () {
         var _this = this;
