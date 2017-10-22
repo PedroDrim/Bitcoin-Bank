@@ -20,7 +20,7 @@ describe('Testando Rotas', () => {
 
   it('[2] Get erro 404', () => {
     chai.request(app)
-      .post('/')
+      .post('/algo_estranho')
       .end((err, res) => {
         assert.equal(res.status, 404);
         done();        

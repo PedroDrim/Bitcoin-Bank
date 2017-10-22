@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { List } from "../model/list";
 import { Person } from "../model/person";
-//import { Observable } from "rxjs";
 import * as _ from "lodash";
 
 /**
@@ -48,7 +47,7 @@ export class IndexRoute {
       };
 
       var view: string = "index";
-      res.render(view, {prop: options});
+      res.render(view, { prop: options });
     });
   }
 
@@ -58,7 +57,7 @@ export class IndexRoute {
     this.router.post("/", (req: Request, res: Response) => {
 
       if (_.isEmpty(req.body)) {
-        res.status(400).send("Não foi possivel adicionar o elemento, verifique os parametros.");
+        res.status(400).send("Não foi possivel adicionar o elemento, corpo vazio.");
       } else {
 
         var cpf: string = req.params.cpf;
@@ -69,8 +68,12 @@ export class IndexRoute {
           req.body.age
         );
 
-        this.list.addPerson(person);
-        res.send("Elemento adicionado com sucesso.");
+        if (this.list.addPerson(person)) {
+          res.send("Elemento adicionado com sucesso.");
+        } else {
+          res.status(400).send("Não foi possivel adicionar o elemento, cpf já existente.");
+        }
+
       }
     });
 
@@ -90,28 +93,26 @@ export class IndexRoute {
 
     //Exibir body
     this.router.post("/get/list", (req: Request, res: Response) => {
-      
+
       var l: Person[] = this.list.getList();
-      if(_.isEmpty(l)){
+      if (_.isEmpty(l)) {
         res.status(400).send("Lista vazia.");
-      }else{
+      } else {
         res.json(l);
       }
-      
+
     });
-    
+
   }
 
   private routesForPUT() {
 
     //Atualizar uma person com base no cpf
-    this.router.put("/:cpf", (req: Request, res: Response) => {
+    this.router.put("/", (req: Request, res: Response) => {
 
       if (_.isEmpty(req.body)) {
-        res.status(400).send("Não foi possivel adicionar o elemento, verifique os parametros.");
+        res.status(400).send("Não foi possivel atualizar o elemento, corpo vazio.");
       } else {
-
-        var cpf: string = req.params.cpf;
 
         var person = new Person(
           req.body.cpf,
@@ -119,10 +120,10 @@ export class IndexRoute {
           req.body.age
         );
 
-        if (this.list.updatePersonByCPF(cpf, person)) {
+        if (this.list.updatePerson(person)) {
           res.send("Elemento atualizado com sucesso.");
         } else {
-          res.status(400).send("Não foi possivel atualizar o elemento, verifique os parametros.");
+          res.status(400).send("Não foi possivel atualizar o elemento, cpf já existente.");
         }
 
       }
@@ -140,7 +141,7 @@ export class IndexRoute {
       if (this.list.removePersonByCPF(cpf)) {
         res.send("Elemento removido com sucesso.");
       } else {
-        res.status(400).send("Não foi possivel remover o elemento, verifique os parametros.");
+        res.status(400).send("Não foi possivel remover o elemento, cpf inexistente.");
       }
 
     });
