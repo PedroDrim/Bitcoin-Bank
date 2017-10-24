@@ -26,18 +26,14 @@ export default class QuickList extends React.Component {
       },
       method: "POST",
       body: data
-    });
+    })
+      .catch((err) => { throw new Error("Erro ao buscar lista atualizada: " + err.status); })
+      .then((res) => res.json());
 
     Observable.fromPromise(promise)
-      .map(value => value.json())
-      .subscribe(value =>
-        this.setState({
-          list: value
-        }))
-      .subscribe(error => {
-        throw new Error("Erro ao buscar lista atualizada")
-      });
-
+      .subscribe((value) => this.setState({
+        list: value
+      }));
   }
 
   render() {
@@ -59,7 +55,7 @@ export default class QuickList extends React.Component {
             }
           </tbody>
         </table>
-      </div>
+      </div >
     );
   }
 }
