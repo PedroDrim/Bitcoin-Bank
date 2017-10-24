@@ -3,7 +3,7 @@ node_modules/
 .vscode/
 
 # Diretório de build
-bin/*
+!bin/*
 
 # Log's
 *.log
