@@ -5,7 +5,7 @@ chai.use(chaiHttp);
 var buildapp = require('../bin/build/app');
 var app = buildapp.Server.getApplication();
 
-var assert = chai.assert;
+var assert = chai.should;
 
 describe('Testando Rotas', () => {
 
@@ -13,18 +13,19 @@ describe('Testando Rotas', () => {
     chai.request(app)
       .get('/')
       .end((err, res) => {
-        assert.equal(res.status, 200);
+        res.should.have.status(200);
         done();
-      });
+      })
   });
 
-  it('[2] Get erro 404', () => {
+  it('[2] Get erro 400', () => {
     chai.request(app)
-      .post('/algo_estranho')
+      .post('/test/erro')
       .end((err, res) => {
-        assert.equal(res.status, 404);
-        done();        
+        res.should.have.status(400);
+        done();          
       });
+      
   });
 
 });

@@ -1,5 +1,6 @@
 import * as React from "react";
 import Person from "./person";
+import { Observable } from "rxjs";
 
 export default class QuickList extends React.Component {
 
@@ -18,22 +19,24 @@ export default class QuickList extends React.Component {
   updateList() {
 
     var data = JSON.stringify({});
-
-    fetch("/get/list", {
+    var promise = fetch("/get/list", {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       method: "POST",
       body: data
-    })
-      .then((res) => res.json())
-      .then((res) => {
+    });
+
+    Observable.fromPromise(promise)
+      .map(value => value.json())
+      .subscribe(value =>
         this.setState({
-          list: res
-        })
-      })
-      .catch((err) => { throw new Error("Erro ao buscar lista atualizada"); })
+          list: value
+        }))
+      .subscribe(error => {
+        throw new Error("Erro ao buscar lista atualizada")
+      });
 
   }
 
@@ -51,7 +54,7 @@ export default class QuickList extends React.Component {
           <tbody>
             {
               this.state.list.map((value) => {
-                return <Person key={value.cpf} person={value}/>
+                return <Person key={value.cpf} person={value} />
               })
             }
           </tbody>

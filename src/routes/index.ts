@@ -43,7 +43,7 @@ export class IndexRoute {
       //set options
       let options: Object = {
         "title": "Express",
-        "name": "test"
+        "name": "Pedro!"
       };
 
       var view: string = "index";
