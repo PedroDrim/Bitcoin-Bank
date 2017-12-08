@@ -100,7 +100,7 @@ export class Server {
     this.app.use(errorHandler());
 
     // Definindo porta
-    var port = this.normalizePort(process.env.PORT || '3001');
+    var port = this.normalizePort(process.env.PORT || '5000');
     this.app.set('port', port);
   }
 
