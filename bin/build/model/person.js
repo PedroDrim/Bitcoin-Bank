@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var Person=function(){function t(t,e,n){this.name=e,this.age=n,this.cpf=t}return t.prototype.getName=function(){return this.name},t.prototype.getAge=function(){return this.age},t.prototype.getCpf=function(){return this.cpf},t}();exports.Person=Person;

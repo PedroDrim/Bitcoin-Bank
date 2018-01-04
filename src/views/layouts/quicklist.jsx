@@ -39,7 +39,7 @@ export default class QuickList extends React.Component {
   render() {
     return (
       <div>
-        <table>
+        <table class="responsive-table bordered highlight">
           <thead>
             <tr>
               <th>Cpf</th>
