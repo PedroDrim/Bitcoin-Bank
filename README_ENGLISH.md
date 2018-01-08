@@ -1,6 +1,6 @@
 # Quick List
 
-[README in Portuguese-BR](https://github.com/PedroDrim/Quick-List/blob/master/README_ENGLISH.md)
+[README em Portugues-BR](https://github.com/PedroDrim/Quick-List/blob/master/README.md)
 
 ### Description
 
