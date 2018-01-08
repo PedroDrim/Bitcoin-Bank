@@ -1,5 +1,7 @@
 # Quick List
 
+[README in English](https://github.com/PedroDrim/Quick-List/blob/master/README_ENGLISH.md)
+
 ### Descrição
 
 Quick List é um projeto feito puramente visando o aprendizado das seguintes ferramentas: 
