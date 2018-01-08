@@ -36,7 +36,7 @@ Quick List is a locked list whose interation can be made only by **REST** reques
 ```
 git clone https://github.com/PedroDrim/Quick-List.git
 ```
-2. Insinde the cloned directory build the Docher container of the application with:
+2. Inside the cloned directory build the Docher container of the application with:
 ```
 docker build -t <container name> .
 ```
