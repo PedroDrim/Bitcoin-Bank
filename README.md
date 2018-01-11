@@ -38,7 +38,7 @@ git clone https://github.com/PedroDrim/Quick-List.git
 ```
 2. Dentro do diretório gerado monte o container com o Docker da aplicação com: 
 ```
-docker build -t <nome do container> .
+sudo docker build -t <nome do container> .
 ```
 3. Execute o container do Docker com o comando:
 ```

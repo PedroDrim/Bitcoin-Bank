@@ -38,7 +38,7 @@ git clone https://github.com/PedroDrim/Quick-List.git
 ```
 2. Inside the cloned directory build the Docher container of the application with:
 ```
-docker build -t <container name> .
+sudo docker build -t <container name> .
 ```
 3. Run the Docker container with:
 ```
